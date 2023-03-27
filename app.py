@@ -128,14 +128,13 @@ def update_profession_id(customer_id):
         return make_response({'error': str(e)}, 400)
     
 
-#test this one
 @app.route('/highest_income_report', methods=['GET'])
 def profession_highest_income():
     try:
         cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
         cursor = cnx.cursor()
         
-        cursor.execute(f"SELECT CustomerID, max(Annual_Income) AS AnnualIncome, Profession FROM Customers GROUP BY Profession;")
+        cursor.execute(f"SELECT CustomerID, MAX(Annual_Income) AS AnnualIncome, Profession FROM Customers GROUP BY CustomerID, Profession;")
         customers_list = []
 
         for CustomerID, AnnualIncome, Profession in cursor:
