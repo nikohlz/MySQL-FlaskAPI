@@ -31,3 +31,24 @@ python -m venv venv (you may need to use python3 instead if you are using python
 source venv/bin/activate (or .\venv\Scripts\activate on Windows)
 pip install -r requirements.txt
 flask --app app --debug run
+
+```bash
+python -m venv venv (you may need to use python3 instead if you are using python3)
+```
+If you have a Mac/Linus System you run this command to create your virtual environment
+```bash
+source venv/bin/activate 
+```
+
+If you have a Windows System you run this command to create your virtual environment
+```bash
+.\venv\Scripts\activate
+```
+Install all the requirements for the project to run
+```bash
+pip install -r requirements.txt
+```
+To run the flask Application
+```bash
+flask --app app --debug run
+```
