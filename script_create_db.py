@@ -8,10 +8,16 @@ import csv
 import mysql.connector
 
 # Connect to MySQL Server (create database if not exists)
+# conn = mysql.connector.connect(
+#     host="localhost",
+#     user="klaw",
+#     password="kl@w1234"
+# )
 conn = mysql.connector.connect(
     host="localhost",
-    user="klaw",
-    password="kl@w1234"
+    user='root',
+    password='Kl@w$li3e!',
+    auth_plugin='mysql_native_password'
 )
 
 cursor = conn.cursor()

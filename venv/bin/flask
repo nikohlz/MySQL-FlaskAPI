@@ -1,4 +1,4 @@
-#!/home/klaw4life/Documents/COMP3161/MySQL-FlaskAPI/venv/bin/python3
+#!/home/klaw4life/Documents/COMP3161/MySQL-FlaskAPI/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

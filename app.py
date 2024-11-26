@@ -9,15 +9,28 @@
 from flask import Flask, request, make_response
 
 import mysql.connector
+import os
+from dotenv import load_dotenv
 
+# Get the database credentials
+load_dotenv()
 
 app = Flask(__name__)
 
+# Database connection configuration using environment variables
+db_config = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME'),
+    'auth_plugin': os.getenv('AUTH_PLUGIN')
+}
 
 @app.route('/customers', methods=['GET'])
 def get_customers():
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         cursor.execute('SELECT * from Customers;')
         customers_list = []
@@ -45,7 +58,8 @@ def get_customers():
 @app.route('/customer/<customer_id>', methods=['GET'])
 def get_customers_id(customer_id):
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         cursor.execute(f"SELECT * from Customers WHERE CustomerID={customer_id};")
         row = cursor.fetchone()
@@ -74,7 +88,8 @@ def get_customers_id(customer_id):
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         #json way of accepting data
@@ -111,7 +126,8 @@ def add_customer():
 @app.route('/update_profession/<customer_id>', methods=['PUT'])
 def update_profession_id(customer_id):
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         #json way of accepting data
@@ -127,11 +143,12 @@ def update_profession_id(customer_id):
     except Exception as e:
         return make_response({'error': str(e)}, 400)
     
-
+# can use a sub query to get the highest and then use the query to match to the customer id
 @app.route('/highest_income_report', methods=['GET'])
 def profession_highest_income():
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         
         cursor.execute(f"SELECT CustomerID, MAX(Annual_Income) AS AnnualIncome, Profession FROM Customers GROUP BY CustomerID, Profession;")
@@ -156,7 +173,8 @@ def profession_highest_income():
 @app.route('/total_income_report', methods=['GET'])
 def get_income_report():
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         cursor.execute('SELECT SUM(Annual_Income) AS TotalIncome, Profession FROM Customers GROUP BY Profession;')
@@ -179,7 +197,8 @@ def get_income_report():
 @app.route('/average_work_experience', methods=['GET'])
 def avg_work_experience():
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
 
         cursor.execute(f"SELECT ROUND(AVG(Work_Experience),0) AS AVGExperience, Profession FROM Customers WHERE Annual_Income > 50000 AND Age < 35 GROUP BY Profession;")
@@ -202,7 +221,8 @@ def avg_work_experience():
 @app.route('/average_spending_score/<profession>', methods=['GET'])
 def avg_spend_score(profession):
     try:
-        cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+        cnx = mysql.connector.connect(**db_config)
+        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
         cursor = cnx.cursor()
 
         cursor.execute(f"SELECT ROUND(AVG(Spending_Score),0) AS AVG_SpendScore, Gender FROM Customers WHERE Profession = '{profession}' GROUP BY Gender;")
