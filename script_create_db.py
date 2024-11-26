@@ -7,18 +7,22 @@ Upon Completion the data in the csv will be inserted into the database.
 import csv
 import mysql.connector
 
-# Connect to MySQL Server (create database if not exists)
-# conn = mysql.connector.connect(
-#     host="localhost",
-#     user="klaw",
-#     password="kl@w1234"
-# )
-conn = mysql.connector.connect(
-    host="localhost",
-    user='root',
-    password='Kl@w$li3e!',
-    auth_plugin='mysql_native_password'
-)
+
+import os
+from dotenv import load_dotenv
+
+# Get the database credentials
+load_dotenv()
+
+
+# Database connection configuration using environment variables
+conn = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME'),
+    'auth_plugin': os.getenv('AUTH_PLUGIN')
+}
 
 cursor = conn.cursor()
 
