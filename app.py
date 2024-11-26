@@ -58,7 +58,6 @@ def get_customers():
 @app.route('/customer/<customer_id>', methods=['GET'])
 def get_customers_id(customer_id):
     try:
-        # cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         cursor.execute(f"SELECT * from Customers WHERE CustomerID={customer_id};")

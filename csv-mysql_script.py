@@ -8,8 +8,18 @@ Upon Completion the data in the csv will be inserted into the database.
 import csv
 import mysql.connector
 
+
+
+db_config = {
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME'),
+    'auth_plugin': os.getenv('AUTH_PLUGIN')
+}
+
 # Connection to MySQL database
-cnx = mysql.connector.connect(user='klaw', password='kl@w1234', host='localhost', database='customers')
+cnx = mysql.connector.connect(**db_config)
 
 cursor = cnx.cursor()
 
