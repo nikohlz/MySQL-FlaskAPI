@@ -26,12 +26,6 @@ This is done by first creating a virtual environment, installing the required de
 
 In the command line, run the following commands:
 
-```bash 
-python -m venv venv (you may need to use python3 instead if you are using python3)
-source venv/bin/activate (or .\venv\Scripts\activate on Windows)
-pip install -r requirements.txt
-flask --app app --debug run
-
 ```bash
 python -m venv venv (you may need to use python3 instead if you are using python3)
 ```
